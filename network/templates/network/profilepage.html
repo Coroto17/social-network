@@ -1,0 +1,79 @@
+{% extends "network/layout.html" %}
+{% load static %}
+{% block fontawesome %}
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/d76325e6ba.js" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block body %}
+  <section class="user-profile-header p-1 m-3">
+    <div class="row mx-0 align-items-center">
+      <div class="col">
+        <h2><a class="user-link" href="{% url 'profile' username %}"><strong>{{username}}</strong></a> </h2>
+        <p class="mb-0">Posts: {{ user_posts.count }}</p>
+        <p>Joined: {{ join_date }}</p>
+      </div>
+      {% if user.is_authenticated %}
+        {% if username != user.username %}
+          {% if a_follows_b %}
+            <div class="col">
+              <button id="follow" data-user="{{username}}" class="btn btn-danger float-right rounded-lg"> Unfollow </button>
+            </div>
+          {% else %}
+            <div class="col">
+              <button id="follow" data-user="{{username}}" class="btn btn-primary float-right rounded-lg"> Follow </button>
+            </div>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+    </div>
+    <p class="p-3">
+      {% if username == user.username %}
+        <a class="following-link" href="{% url 'following' username %}"><span id="following" class="text-info font-weight-bold">Following: {{ following }}</span></a>
+      {% else %}
+        <span id="following" class="text-info font-weight-bold">Following: {{ following }}</span>
+      {% endif %}
+        <span id="followers" class="float-right text-primary font-weight-bold">Followers: {{ followers }}</span></p>
+  </section>
+
+  <section class="px-3">
+    {% if not user_posts %}
+      <p class="p-3">This user does not have posts yet.</p> 
+    {% else %}
+      <h2>Posts</h2>
+      {% for post in user_posts %}
+        <article id="{{post.id}}" class="post p-3">
+          <p>
+            <a class="user-link" href="{% url 'profile' post.author %}"><strong>{{post.author}}</strong></a> 
+            <span>{{post.timestamp}}</span>
+            {% if post.author == user %}
+            <span class="edit float-right">
+              <i class="fas fa-edit text-primary" title="edit"></i>
+            </span>
+            {% endif %}
+          </p>
+          <p class="post-content">
+            {{post.content}}
+          </p>
+          {% if user.is_authenticated %}
+            {% if user.username != username %}
+              <div class="like">
+                <i class="fas fa-heart {% if post in liked_posts %}text-danger{% endif %}" title="Like"></i> <span class="likes">{{post.number_of_likes}}</span>
+              </div>
+            {% else %}
+              <i class="fas fa-heart"></i> <span class="likes">{{post.number_of_likes}}</span>
+            {% endif %}
+          {% else %}
+            <i class="fas fa-heart"></i> <span class="likes">{{post.number_of_likes}}</span>
+          {% endif %}
+        </article>
+      {% endfor %}
+      {% include "network/pagination.html" %}
+    {% endif %}
+  </section>
+{% endblock %}
+
+{% block script %}
+  <script src="{% static 'network/index.js' %}"></script>
+  <script src="{% static 'network/userProfile.js' %}"></script>
+{% endblock %}

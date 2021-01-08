@@ -1,0 +1,124 @@
+$main-background: #282a36;
+$font-color: #eee;
+
+html {
+  font-size: 62.5%;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  cursor: default;
+  background-color: $main-background;
+  color: $font-color;
+  
+}
+
+// modify navbar
+nav.navbar.navbar-expand-lg.navbar-light {
+  background-color: tomato;
+}
+.navbar-brand {
+  font-size: 2rem;
+}
+.nav-link {
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+.container {
+  background-color: $main-background;
+  color: #eee;
+}
+// post section
+.post {
+  color: $font-color;
+  font-size: 1.6rem;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #555;
+}
+// register form
+#register, .form-control, .btn {
+  font-size: 1.4rem;
+}
+// like heart
+.like i {
+  cursor: pointer;
+  &:hover {
+    transform: rotateY(360deg);
+    transition-duration: 1s;
+  }
+}
+// edit icon
+span[class="edit float-right"] {
+  cursor: pointer;
+}
+// pagination navbar
+nav.page-navigation {
+  font-size: 1.6rem;
+}
+ul[class^="pagination"] > li[class^="page-item"] > a[class="page-link"] {
+  background-color: inherit;
+  border-color: gray;
+  color: white;
+  &:hover {
+    background-color: #c82333;
+  }
+  &:focus {
+    background-color: #c82333;
+    border-color: #bd2130;
+    box-shadow: 0 0 0 .2rem rgba(225,83,97,.5);
+  }
+}
+ul[class^="pagination"] > li[class="page-item active"] > a[class="page-link"] {
+  background-color: #dc3545;
+  border: 1px solid gray;
+  &:hover {
+    background-color: #c82333;
+  }
+  &:focus {
+    background-color: #c82333;
+    border-color: #bd2130;
+    box-shadow: 0 0 0 .2rem rgba(225,83,97,.5);
+  }
+}
+ul[class^="pagination"] > li[class="page-item disabled"] > a[class="page-link"] {
+  border: 1px solid gray;
+  color: gray;
+}
+// user profile header
+.user-profile-header {
+  border: 2px solid;
+  border-image-slice: 1;
+  border-width: 2px;
+  font-size: 1.6rem;
+  border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
+}
+// login-register section
+.login-register {
+  font-size: 1.6rem;
+}
+// username anchor
+.user-link {
+  color: white;
+}
+.user-link:hover {
+  text-decoration: none;
+  color: #ffc107;
+  transition: color 500ms;
+}
+.user-link:active:focus {
+  color: white;
+}
+section.px-3 {
+  font-size: 1.6rem;
+}
+a.following-link:hover {
+  text-decoration: none;
+}

@@ -1,0 +1,62 @@
+{% extends "network/layout.html" %}
+{% load static %}
+{% block fontawesome %}
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/d76325e6ba.js" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block body %}
+  {% if not user.is_authenticated %}
+    <section class="text-center p-3 login-register">
+      <p class="m-0">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+      <p class="my-0">If you don't have an account, <a href="{% url 'register' %}">Register</a></p>
+    </section>
+  {% else %}
+    <section class="new-post p-3">
+      <h2>Would you mind to share something?</h2>
+      <form action="{% url 'new_post' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <textarea name="post_content" class="form-control bg-dark text-white"></textarea>
+          <span class="form-text text-muted text-right">Create a new Post</span>
+          <input id="send" class="btn btn-danger" type="submit" value="Create Post">
+        </div>
+      </form>
+    </section>
+  {% endif %}
+  <section class="posts p-3">
+    <h2>All Posts</h2>
+    {% for post in page_obj %}
+      <article id="{{post.id}}" class="post p-3">
+        <p>
+          <a class="user-link" href="{% url 'profile' post.author %}"><strong>{{post.author}}</strong></a>
+          <span>{{post.timestamp}}</span>
+          {% if post.author == request.user %}
+          <span class="edit float-right">
+            <i class="fas fa-edit text-primary" title="edit"></i>
+          </span>
+          {% endif %}
+        </p>
+        <p class="post-content">
+          {{post.content}}
+        </p>
+        {% if user.is_authenticated %}
+          {% if request.user != post.author %}
+            <div class="like">
+              <i class="fas fa-heart {% if post in liked_posts %}text-danger{% endif %}" title="Like"></i> <span class="likes">{{post.number_of_likes}}</span>
+            </div>
+          {% else %}
+            <i class="fas fa-heart"></i> <span class="likes">{{post.number_of_likes}}</span>
+          {% endif %}
+        {% else %}
+          <i class="fas fa-heart"></i> <span class="likes">{{post.number_of_likes}}</span>
+        {% endif %}
+      </article>
+    {% endfor %}
+  </section>
+  {% include "network/pagination.html" %}
+{% endblock %}
+
+{% block script %}
+  <script src="{% static 'network/index.js' %}"></script>
+{% endblock %}

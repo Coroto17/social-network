@@ -1,0 +1,12 @@
+name: Testing
+on: push
+
+jobs:
+  test_project:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run Django tests
+      run: |
+        pip3 install -r requirements.txt
+        source solo_tests.sh
